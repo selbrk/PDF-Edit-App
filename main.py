@@ -149,15 +149,15 @@ class PDFViewer(tk.Toplevel):
         try:
             self.pdf_reader = PdfReader(self.pdf_path)
         except Exception as e:
-            messagebox.showerror("Hata", f"PDF yüklenirken hata:\n{e}")
+            messagebox.showerror("Warning", f"An error occurred:\n{e}")
             return
         try:
             self.original_images = convert_from_path(self.pdf_path, dpi=150)
         except Exception as e:
-            messagebox.showerror("Hata", f"PDF görüntüleme sırasında hata:\n{e}")
+            messagebox.showerror("Warning", f"An error occurred:\n{e}")
             return
         if not self.original_images:
-            messagebox.showerror("Hata", "PDF sayfaları resme dönüştürülemedi.")
+            messagebox.showerror("Warning", "Couldn't convert PDF to images.")
             return
         self.update_display(initial=True)
 
@@ -189,7 +189,7 @@ class PDFViewer(tk.Toplevel):
         if initial:
             self.listbox.delete(0, tk.END)
             for i in range(len(self.original_images)):
-                self.listbox.insert(tk.END, f"Sayfa {i+1}")
+                self.listbox.insert(tk.END, f"Page {i+1}")
 
     def on_resize(self, event):
         if hasattr(self, 'resize_after_id'):
@@ -336,7 +336,7 @@ class PDFApp:
             try:
                 reader = PdfReader(file_path)
             except Exception as e:
-                messagebox.showerror("Hata", f"'Could not open {file_path}' file:\n{e}")
+                messagebox.showerror("Warning", f"'Could not open {file_path}' file:\n{e}")
                 return
             for page in reader.pages:
                 writer.add_page(page)
